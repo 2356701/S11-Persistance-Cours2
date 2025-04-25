@@ -12,68 +12,71 @@ public class JeuEspaceV2 : MonoBehaviour
     public int etoiles = 0;
     private int etoilesDebutNiveau;
     public TextMeshProUGUI textEtoiles;
+
+    public AudioSource sonPortail;
     
     public GameObject fxExplosion;
 
-    // Variable pour garder une référence à la copie global
+    // Variable pour garder une rï¿½fï¿½rence ï¿½ la copie global
     public static JeuEspaceV2 instance;
 
     // Avant de faire Start d'une nouvelle instance de notre script
     void Awake()
     {
-        // Si on n'a pas encore une copie global prête
+        // Si on n'a pas encore une copie global prï¿½te
         if(instance == null)
         {
-            // On va créer notre instance singleton
+            // On va crï¿½er notre instance singleton
             // Garder la copie actuel comme global
             instance = this;
             // Marquer ce objet comme persistant
             DontDestroyOnLoad(gameObject);
         }
-        // Si on a déjà un singleton prêt
+        // Si on a deja un singleton pret
         else
         {
-            // On va détruire cette nouvelle copie extra
+            // On va detruire cette nouvelle copie extra
             Destroy(gameObject);
         }
     }
 
     public void Start()
     {
-        // Garder la valeur initiale des étoiles au début du niveau
+        // Garder la valeur initiale des etoiles au debut du niveau
         etoilesDebutNiveau = etoiles;
         textEtoiles.text = etoiles.ToString("0");
     }
 
     public void ChangerScene(int indexScene)
     {
+        sonPortail.Play();
         SceneManager.LoadScene(indexScene);
-        // Après que la nouvelle scène est chargé,
-        // on garde la valeur de étoiles au début
+        // Apres que la nouvelle scene est charge,
+        // on garde la valeur de etoiles au debut
         etoilesDebutNiveau = etoiles;
     }
 
     public void CollecterEtoile()
     {
-        // Sommer à la variable
+        // Sommer e la variable
         etoiles++;
-        // Montrer à le Canvas
+        // Montrer e le Canvas
         textEtoiles.text = etoiles.ToString("0");
     }
 
     public void DetruireJoueur(GameObject joueur)
     {
-        // Créer une copie du prefab d'explosion à la position du joueur
+        // Crï¿½er une copie du prefab d'explosion ï¿½ la position du joueur
         Instantiate(fxExplosion, joueur.transform.position, joueur.transform.rotation);
-        // Recommencer la scène après 3 s
+        // Recommencer la scï¿½ne aprï¿½s 3 s
         Invoke("RecommencerScene", 3f);
     }
 
     void RecommencerScene()
     {
-        // Recharger la scène actuel
+        // Recharger la scï¿½ne actuel
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        // Retourner la valeur initiale des étoiles avant ce niveau
+        // Retourner la valeur initiale des ï¿½toiles avant ce niveau
         etoiles = etoilesDebutNiveau;
         textEtoiles.text = etoiles.ToString("0");
     }
