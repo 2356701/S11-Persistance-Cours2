@@ -10,7 +10,7 @@ public class JeuEspaceV1 : MonoBehaviour
 
     void Start()
     {
-        // DontDestroyOnLoad(gameObject);
+         DontDestroyOnLoad(gameObject);
     }
 
     public void ChangerScene(int indexScene)
